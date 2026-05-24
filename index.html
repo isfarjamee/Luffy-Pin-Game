@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Luffy's Secret PIN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Cabin:wght@600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --gold:#f5c030;--gold-dark:#c07808;
+  --red:#e03030;--red-dark:#a01010;
+  --navy:#1a3560;
+  --glass:rgba(255,255,255,.75);
+  --shadow:rgba(20,70,130,.13);
+}
+body{
+  font-family:'Cabin',sans-serif;
+  background:linear-gradient(180deg,#7acef0 0%,#b0e2f8 25%,#d4f0ff 55%,#eaf8ff 80%,#f5fbff 100%);
+  min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;
+  padding:0 16px 60px;
+  position:relative;overflow-x:hidden;
+}
+
+/* CLOUDS */
+.clouds{position:fixed;inset:0;pointer-events:none;z-index:0;}
+.cloud{position:absolute;background:#fff;border-radius:60px;animation:drift linear infinite;}
+.cloud::before,.cloud::after{content:'';position:absolute;background:#fff;border-radius:50%;}
+.c1{width:130px;height:42px;top:7%;left:-150px;animation-duration:30s;animation-delay:-5s;opacity:.88;}
+.c1::before{width:76px;height:76px;top:-34px;left:18px;}.c1::after{width:54px;height:54px;top:-22px;left:62px;}
+.c2{width:170px;height:50px;top:20%;left:-190px;animation-duration:38s;animation-delay:-16s;opacity:.65;}
+.c2::before{width:88px;height:88px;top:-42px;left:22px;}.c2::after{width:64px;height:64px;top:-28px;left:82px;}
+.c3{width:95px;height:32px;top:4%;left:-115px;animation-duration:24s;animation-delay:-10s;opacity:.5;}
+.c3::before{width:56px;height:56px;top:-26px;left:12px;}.c3::after{width:40px;height:40px;top:-16px;left:44px;}
+.c4{width:150px;height:44px;top:38%;left:-170px;animation-duration:34s;animation-delay:-22s;opacity:.55;}
+.c4::before{width:70px;height:70px;top:-32px;left:20px;}.c4::after{width:52px;height:52px;top:-22px;left:70px;}
+.c5{width:108px;height:36px;top:50%;left:-128px;animation-duration:26s;animation-delay:-3s;opacity:.45;}
+.c5::before{width:58px;height:58px;top:-27px;left:14px;}.c5::after{width:42px;height:42px;top:-18px;left:52px;}
+@keyframes drift{from{transform:translateX(0)}to{transform:translateX(calc(100vw + 220px))}}
+
+/* OCEAN */
+.ocean{position:fixed;bottom:0;left:0;width:100%;pointer-events:none;z-index:0;}
+
+/* PAGE */
+.page{position:relative;z-index:2;width:100%;max-width:450px;display:flex;flex-direction:column;align-items:center;gap:16px;}
+
+/* HERO */
+.hero{display:flex;flex-direction:column;align-items:center;padding-top:28px;gap:8px;}
+.hat-wrap{animation:hat-float 3.4s ease-in-out infinite;filter:drop-shadow(0 12px 22px rgba(20,70,130,.18));}
+@keyframes hat-float{0%,100%{transform:translateY(0) rotate(-1.2deg)}50%{transform:translateY(-11px) rotate(1.2deg)}}
+.hero-title{font-family:'Bangers',cursive;font-size:2.8rem;letter-spacing:6px;color:var(--navy);text-shadow:0 2px 0 rgba(255,255,255,.8),0 5px 16px rgba(20,70,130,.14);text-align:center;line-height:1;}
+.hero-sub{font-family:'Cabin',sans-serif;font-weight:700;font-size:.68rem;color:#5090b8;letter-spacing:3.5px;text-transform:uppercase;}
+
+/* STORY */
+.story{width:100%;background:var(--glass);backdrop-filter:blur(10px);border:2px solid rgba(255,255,255,.92);border-radius:22px;padding:15px 17px;display:flex;gap:12px;align-items:flex-start;box-shadow:0 4px 28px var(--shadow);}
+.story-icon{font-size:1.85rem;flex-shrink:0;padding-top:1px;}
+.story-text{font-size:.75rem;font-weight:600;color:#355070;line-height:1.8;}
+.story-text b{color:#c41515;font-weight:800;}
+
+/* CARD */
+.card{width:100%;background:rgba(255,255,255,.85);backdrop-filter:blur(14px);border:2px solid rgba(255,255,255,.94);border-radius:26px;padding:20px 18px 18px;box-shadow:0 8px 40px var(--shadow);}
+
+/* LEGEND */
+.legend{display:flex;gap:5px;justify-content:center;flex-wrap:wrap;margin-bottom:14px;}
+.leg{display:flex;align-items:center;gap:5px;background:rgba(180,225,245,.28);border:1.5px solid rgba(100,185,225,.3);border-radius:20px;padding:4px 10px;font-size:.6rem;font-weight:700;color:#4a7a96;letter-spacing:.2px;}
+.lsq{width:10px;height:10px;border-radius:3px;flex-shrink:0;}
+.divider{height:1.5px;background:linear-gradient(90deg,transparent,rgba(100,185,225,.35),transparent);margin-bottom:14px;}
+
+/* DOTS */
+.dots{display:flex;gap:8px;justify-content:center;margin-bottom:14px;}
+.dot{width:13px;height:13px;border-radius:50%;background:rgba(180,225,245,.45);border:2px solid rgba(100,185,225,.4);transition:all .3s;}
+.dot.active{background:var(--gold);border-color:var(--gold-dark);box-shadow:0 0 8px rgba(245,192,48,.55);}
+.dot.used{background:var(--red);border-color:var(--red-dark);}
+
+/* GRID */
+.grid{display:flex;flex-direction:column;gap:7px;margin-bottom:14px;}
+.grow{display:grid;grid-template-columns:18px 1fr;align-items:center;gap:6px;}
+.gnum{font-size:.55rem;font-weight:700;color:#88b8cc;text-align:right;}
+.gcells{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;}
+.blk{aspect-ratio:1;border-radius:13px;border:2px solid rgba(100,195,235,.35);background:rgba(210,242,255,.52);display:flex;align-items:center;justify-content:center;font-family:'Bangers',cursive;font-size:1.35rem;color:#88b8cc;transition:all .2s;}
+.blk.hit{background:var(--gold);color:#5a3000;border-color:var(--gold-dark);box-shadow:0 4px 12px rgba(245,192,48,.4);}
+.blk.close{background:var(--red);color:#fff;border-color:var(--red-dark);box-shadow:0 4px 12px rgba(224,48,48,.3);}
+.blk.flip{animation:flip .3s ease forwards;}
+@keyframes flip{0%{transform:rotateY(90deg) scale(.7);opacity:0}100%{transform:rotateY(0) scale(1);opacity:1}}
+
+/* INPUT */
+.inp-zone{background:rgba(210,242,255,.38);border:2px dashed rgba(100,195,235,.42);border-radius:18px;padding:14px;}
+.inp-label{font-family:'Cabin',sans-serif;font-weight:700;font-size:.7rem;color:#6aaabe;letter-spacing:3px;text-transform:uppercase;text-align:center;margin-bottom:10px;}
+.inp-boxes{display:flex;gap:8px;justify-content:center;margin-bottom:10px;}
+.iblk{width:52px;height:62px;border-radius:14px;border:2.5px solid rgba(100,195,235,.4);background:rgba(255,255,255,.88);display:flex;align-items:center;justify-content:center;font-family:'Bangers',cursive;font-size:2.2rem;color:var(--navy);cursor:text;transition:border-color .18s,box-shadow .18s;position:relative;user-select:none;}
+.iblk.cur{border-color:#2a95c8;box-shadow:0 0 0 4px rgba(42,149,200,.14);}
+.iblk.cur::after{content:'';position:absolute;bottom:10px;left:50%;transform:translateX(-50%);width:2px;height:20px;background:#2a95c8;border-radius:2px;animation:blink 1s step-end infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.iblk.filled{border-color:#50b5d8;background:#fff;}
+.gobtn{width:100%;padding:13px;border-radius:14px;background:linear-gradient(150deg,#e83030 0%,#b81010 100%);border:none;color:#fff;font-family:'Bangers',cursive;font-size:1.3rem;letter-spacing:3px;cursor:pointer;box-shadow:0 6px 20px rgba(200,20,20,.28),inset 0 -3px 0 rgba(0,0,0,.18);transition:transform .12s,box-shadow .12s;}
+.gobtn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 10px 26px rgba(200,20,20,.36);}
+.gobtn:active:not(:disabled){transform:translateY(1px);}
+.gobtn:disabled{opacity:.22;cursor:not-allowed;}
+
+/* NUMPAD */
+.numpad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px;}
+.npbtn{padding:14px 0;border-radius:12px;border:2px solid rgba(100,195,235,.35);background:rgba(255,255,255,.8);font-family:'Bangers',cursive;font-size:1.5rem;color:var(--navy);cursor:pointer;transition:all .12s;box-shadow:0 2px 8px rgba(20,70,130,.08);}
+.npbtn:hover{background:#fff;border-color:#50b5d8;transform:translateY(-1px);}
+.npbtn:active{transform:translateY(1px);}
+.npbtn.del{background:rgba(255,230,230,.7);border-color:rgba(200,80,80,.3);color:var(--red-dark);}
+.npbtn.del:hover{background:rgba(255,210,210,.9);}
+.npbtn.zero{grid-column:span 2;}
+
+/* BANNER */
+.banner{width:100%;border-radius:22px;padding:18px;text-align:center;display:none;animation:popUp .45s cubic-bezier(.34,1.56,.64,1);}
+@keyframes popUp{from{opacity:0;transform:scale(.75) translateY(16px)}to{opacity:1;transform:none}}
+.banner.win{display:block;background:linear-gradient(135deg,rgba(255,250,205,.96),rgba(255,235,120,.92));border:3px solid #d4a020;box-shadow:0 10px 30px rgba(200,160,20,.2);}
+.banner.lose{display:block;background:linear-gradient(135deg,rgba(255,242,242,.96),rgba(255,212,212,.92));border:3px solid #c08080;}
+.btitle{font-family:'Bangers',cursive;font-size:1.9rem;letter-spacing:3px;color:#8a1010;line-height:1.1;}
+.bsub{font-family:'Cabin',sans-serif;font-size:.75rem;font-weight:700;margin-top:7px;color:#607080;}
+.prev{display:flex;gap:7px;justify-content:center;margin-top:10px;}
+.prblk{width:42px;height:42px;border-radius:10px;background:rgba(255,255,255,.8);border:2.5px solid #e09090;display:flex;align-items:center;justify-content:center;font-family:'Bangers',cursive;font-size:1.4rem;color:#8a1010;}
+.replay{margin-top:14px;display:inline-block;padding:9px 26px;border-radius:13px;background:transparent;border:2.5px solid #8a1010;font-family:'Bangers',cursive;font-size:1.05rem;letter-spacing:2px;color:#8a1010;cursor:pointer;transition:all .15s;}
+.replay:hover{background:#8a1010;color:#fff;}
+
+.credit{font-family:'Cabin',sans-serif;font-size:.62rem;font-weight:600;color:rgba(25,70,130,.42);text-align:center;line-height:2;letter-spacing:.3px;}
+.credit strong{color:rgba(25,70,130,.62);}
+</style>
+</head>
+<body>
+
+<div class="clouds">
+  <div class="cloud c1"></div><div class="cloud c2"></div>
+  <div class="cloud c3"></div><div class="cloud c4"></div><div class="cloud c5"></div>
+</div>
+
+<svg class="ocean" viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M0,40 C180,70 360,10 540,45 C720,80 900,15 1080,48 C1260,80 1380,30 1440,45 L1440,90 L0,90 Z" fill="#4ab4e8" opacity=".22"/>
+  <path d="M0,55 C200,30 400,70 600,50 C800,30 1000,65 1200,42 C1340,28 1400,55 1440,50 L1440,90 L0,90 Z" fill="#2a9ad8" opacity=".15"/>
+</svg>
+
+<div class="page">
+
+  <div class="hero">
+    <svg class="hat-wrap" width="200" height="110" viewBox="0 0 200 110">
+      <ellipse cx="100" cy="106" rx="60" ry="6" fill="rgba(20,70,130,.12)"/>
+      <ellipse cx="100" cy="78" rx="96" ry="20" fill="#8a6008"/>
+      <ellipse cx="100" cy="74" rx="96" ry="20" fill="#c28818"/>
+      <ellipse cx="100" cy="44" rx="56" ry="42" fill="#aa7210"/>
+      <path d="M44 74 Q100 10 156 74" fill="#d4a020"/>
+      <ellipse cx="80" cy="32" rx="24" ry="15" fill="#f0cc40" opacity=".45"/>
+      <rect x="50" y="62" width="100" height="18" rx="5" fill="#c41515"/>
+      <rect x="56" y="64" width="86" height="7" rx="3" fill="#e83030" opacity=".28"/>
+      <ellipse cx="100" cy="74" rx="96" ry="20" fill="none" stroke="#7a5006" stroke-width="2.2"/>
+      <line x1="12" y1="72" x2="36" y2="62" stroke="#9a6808" stroke-width="1" opacity=".5"/>
+      <line x1="170" y1="70" x2="192" y2="80" stroke="#9a6808" stroke-width="1" opacity=".5"/>
+      <line x1="6" y1="82" x2="24" y2="88" stroke="#9a6808" stroke-width=".9" opacity=".35"/>
+      <line x1="178" y1="80" x2="198" y2="86" stroke="#9a6808" stroke-width=".9" opacity=".35"/>
+      <ellipse cx="100" cy="74" rx="84" ry="14" fill="rgba(80,40,0,.08)"/>
+    </svg>
+    <h1 class="hero-title">LUFFY'S SECRET PIN</h1>
+    <p class="hero-sub">⚓ somewhere on the grand line ⚓</p>
+  </div>
+
+  <div class="story">
+    <span class="story-icon">🍖</span>
+    <p class="story-text">
+      Luffy found a <b>chest full of meat</b> locked with a <b>5-digit PIN.</b>
+      After last night's wild party on the Sunny, he forgot the code. He's <b>starving!</b>
+      Help him crack it before he passes out.<br/><br/>
+      You have <b>5 attempts.</b> &nbsp;🟡 right digit, right place &nbsp;·&nbsp; 🔴 right digit, wrong place &nbsp;·&nbsp; ⬜ not in code.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="legend">
+      <div class="leg"><div class="lsq" style="background:var(--gold);border:1.5px solid var(--gold-dark);"></div>Right digit, right place</div>
+      <div class="leg"><div class="lsq" style="background:var(--red);border:1.5px solid var(--red-dark);"></div>Right digit, wrong place</div>
+      <div class="leg"><div class="lsq" style="background:rgba(210,242,255,.7);border:1.5px solid rgba(100,195,235,.4);"></div>Not in code</div>
+    </div>
+    <div class="divider"></div>
+    <div class="dots" id="dots"></div>
+    <div class="grid" id="grid"></div>
+    <div class="inp-zone">
+      <div class="inp-label">Your Guess</div>
+      <div class="inp-boxes">
+        <div class="iblk cur" id="ib0"></div>
+        <div class="iblk" id="ib1"></div>
+        <div class="iblk" id="ib2"></div>
+        <div class="iblk" id="ib3"></div>
+        <div class="iblk" id="ib4"></div>
+      </div>
+      <button class="gobtn" id="gobtn" onclick="go()">🔓 CRACK IT!</button>
+      <!-- Numpad for mobile & desktop -->
+      <div class="numpad" id="numpad">
+        <button class="npbtn" onclick="np('1')">1</button>
+        <button class="npbtn" onclick="np('2')">2</button>
+        <button class="npbtn" onclick="np('3')">3</button>
+        <button class="npbtn" onclick="np('4')">4</button>
+        <button class="npbtn" onclick="np('5')">5</button>
+        <button class="npbtn" onclick="np('6')">6</button>
+        <button class="npbtn" onclick="np('7')">7</button>
+        <button class="npbtn" onclick="np('8')">8</button>
+        <button class="npbtn" onclick="np('9')">9</button>
+        <button class="npbtn zero" onclick="np('0')">0</button>
+        <button class="npbtn del" onclick="np('del')">⌫</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="banner" id="banner"></div>
+
+  <p class="credit">
+    <strong>Designed by</strong> C M Isfar Jamee (Student, BracU)<br/>
+    <strong>Inspired by</strong> Rakibul Hasan Mahim (RKBM) Sir (Faculty, BracU)
+  </p>
+
+</div>
+
+<script>
+const MAX=5;
+let pin='',cur=0,over=false,typed='';
+
+function gen(){return String(Math.floor(Math.random()*100000)).padStart(5,'0');}
+
+function buildDots(){
+  const d=document.getElementById('dots');d.innerHTML='';
+  for(let i=0;i<MAX;i++){
+    const e=document.createElement('div');
+    e.className='dot'+(i<cur?' used':i===cur?' active':'');
+    d.appendChild(e);
+  }
+}
+
+function buildGrid(){
+  const g=document.getElementById('grid');g.innerHTML='';
+  for(let i=0;i<MAX;i++){
+    const r=document.createElement('div');r.className='grow';
+    let b='';for(let j=0;j<5;j++)b+=`<div class="blk" id="b${i}_${j}"></div>`;
+    r.innerHTML=`<span class="gnum">${i+1}</span><div class="gcells">${b}</div>`;
+    g.appendChild(r);
+  }
+}
+
+function renderTyped(){
+  for(let i=0;i<5;i++){
+    const b=document.getElementById('ib'+i);
+    b.textContent=typed[i]||'';
+    b.className='iblk'+(i===typed.length&&!over?' cur':typed[i]?' filled':'');
+  }
+}
+
+// Numpad handler — single source of truth for input
+function np(val){
+  if(over)return;
+  if(val==='del'){
+    typed=typed.slice(0,-1);
+  } else {
+    if(typed.length>=5)return;
+    typed+=val;
+  }
+  renderTyped();
+}
+
+function go(){
+  if(over||typed.length!==5)return;
+  const guess=typed;
+  // reset typed immediately
+  typed='';
+  renderTyped();
+
+  let win=true;
+  for(let i=0;i<5;i++){
+    const c=document.getElementById(`b${cur}_${i}`);
+    c.textContent=guess[i];
+    setTimeout((el,g,p)=>{
+      el.classList.add('flip');
+      if(g===p)el.classList.add('hit');
+      else if(pin.includes(g))el.classList.add('close');
+      else el.style.color='#90b8c8';
+    },i*85,c,guess[i],pin[i]);
+    if(guess[i]!==pin[i])win=false;
+  }
+  cur++;
+  setTimeout(()=>{
+    buildDots();
+    if(win)end(true);
+    else if(cur===MAX)end(false);
+  },5*85+160);
+}
+
+function end(won){
+  over=true;
+  document.getElementById('gobtn').disabled=true;
+  document.getElementById('numpad').style.opacity='.3';
+  document.getElementById('numpad').style.pointerEvents='none';
+  for(let i=0;i<5;i++){const b=document.getElementById('ib'+i);b.className='iblk';b.style.opacity='.3';}
+  const bEl=document.getElementById('banner');
+  if(won){
+    bEl.className='banner win';
+    bEl.innerHTML='<div class="btitle">🎉 GOMU GOMU NO OPEN! 🎉</div><div class="bsub">Chest cracked! The crew feasts tonight! 🍖🥩🍗</div><br/><button class="replay" onclick="start()">Play Again</button>';
+  } else {
+    let pr='';for(const c of pin)pr+=`<div class="prblk">${c}</div>`;
+    bEl.className='banner lose';
+    bEl.innerHTML=`<div class="btitle">☠ LOCKED FOREVER ☠</div><div class="bsub">The pin was:</div><div class="prev">${pr}</div><div class="bsub" style="margin-top:8px">Luffy collapses from hunger... 😭</div><br/><button class="replay" onclick="start()">Try Again</button>`;
+  }
+}
+
+// Also support physical keyboard
+document.addEventListener('keydown',e=>{
+  if(over)return;
+  if(e.key>='0'&&e.key<='9'){np(e.key);}
+  else if(e.key==='Backspace'){np('del');}
+  else if(e.key==='Enter'){go();}
+});
+
+function start(){
+  pin=gen();over=false;cur=0;typed='';
+  document.getElementById('banner').className='banner';
+  document.getElementById('gobtn').disabled=false;
+  document.getElementById('numpad').style.opacity='1';
+  document.getElementById('numpad').style.pointerEvents='auto';
+  buildDots();buildGrid();renderTyped();
+}
+
+start();
+</script>
+</body>
+</html>
